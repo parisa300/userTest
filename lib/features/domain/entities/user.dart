@@ -1,6 +1,6 @@
-class User {
+class UserLogin {
 
   final String token;
 
-  User({ required this.token});
+  UserLogin({ required this.token});
 }

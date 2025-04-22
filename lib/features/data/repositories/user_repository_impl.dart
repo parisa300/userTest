@@ -2,21 +2,32 @@
 import '../../../core/error/failure.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/user_repository.dart';
-import '../datasource/user_remote_data_source.dart';
+import '../datasource/firebase_data_source.dart';
 import 'package:dartz/dartz.dart';
 
-class UserRepositoryImpl implements UserRepository {
-  final RemoteDataSource remoteDataSource;
+class AuthRepositoryImpl implements AuthRepository {
+  final FirebaseAuthDataSource dataSource;
 
-  UserRepositoryImpl(this.remoteDataSource);
+  AuthRepositoryImpl(this.dataSource);
 
   @override
-  Future<Either<Failure, User>> login(String email, String password) async {
+  Future<Either<Failure, UserLogin>> login(String email, String password) async {
     try {
-      final userModel = await remoteDataSource.login(email, password);
-      return Right(userModel.toEntity());
+      final user = await dataSource.login(email, password);
+      return Right(user);
     } catch (e) {
-      return Left(ServerFailure('Login failed: ${e.toString()}'));
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> register(String email, String password) async {
+    try {
+      await dataSource.register(email, password);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
     }
   }
 }
+

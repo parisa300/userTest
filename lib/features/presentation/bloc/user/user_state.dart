@@ -1,19 +1,9 @@
-import '../../../domain/entities/user.dart';
+abstract class AuthState {}
 
-abstract class UserState {}
-
-class UserInitial extends UserState {}
-
-class UserLoading extends UserState {}
-
-class UserLoaded extends UserState {
-  final User user;
-
-  UserLoaded(this.user);
-}
-
-class UserError extends UserState {
+class AuthInitial extends AuthState {}
+class AuthLoading extends AuthState {}
+class AuthSuccess extends AuthState {}
+class AuthFailure extends AuthState {
   final String message;
-
-  UserError(this.message);
+  AuthFailure(this.message);
 }

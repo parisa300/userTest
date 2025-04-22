@@ -4,12 +4,20 @@ import '../repositories/user_repository.dart';
 import 'package:dartz/dartz.dart';
 
 
+// class LoginUseCase {
+//   final UserRepository repository;
+//
+//   LoginUseCase(this.repository);
+//
+//   Future<Either<Failure, User>> call(String email, String password) {
+//     return repository.login(email, password);
+//   }
+// }
 class LoginUseCase {
-  final UserRepository repository;
-
+  final AuthRepository repository;
   LoginUseCase(this.repository);
 
-  Future<Either<Failure, User>> call(String email, String password) {
+  Future<Either<Failure, UserLogin>> call(String email, String password) {
     return repository.login(email, password);
   }
 }
